@@ -11,10 +11,19 @@
 |
 */
 
-Route::get('/', function () {
+/*Route::get('/', function () {
     return view('welcome');
+});*/
+
+Route::group(['middleware' => 'web'], function () {
+
+    Route::get('/', ['as' => 'homepage', "uses" => 'HomeController@index']);
+//    Route::get('login', ['as' => 'user.login', "uses" => 'Auth\LoginController@showLoginForm']);
+//    Route::post('login', ['as' => 'user.login', "uses" => 'Auth\LoginController@showLoginForm']);
+    Route::get('register', ['as' => 'user.register', "uses" => 'Auth\RegisterController@showRegistrationForm']);
+
 });
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index');
+Route::get('/dashboard', 'DashboardController@index');
