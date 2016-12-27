@@ -4,9 +4,16 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Repositories\Jobs\JobRepositoryContract;
+use App\Http\Repositories\Jobs\JobRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
+
+    protected $repositories = [
+        JobRepositoryContract::class => JobRepository::class,
+    ];
+
     /**
      * Bootstrap any application services.
      *
@@ -32,6 +39,19 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->registerRepositories();
     }
+
+    /**
+     * Registers repository interfaces and binds them to an implementation.
+     *
+     * @return void
+     */
+    protected function registerRepositories()
+    {
+        foreach ($this->repositories as $interface => $repository) {
+            $this->app->singleton($interface, $repository);
+        }
+    }
+
 }
