@@ -24,4 +24,12 @@ class DashboardController extends Controller
     {
         return view('home');
     }
+
+    public function addJob(){
+        return view('frontend.hr-manager.create-job');
+    }
+
+    public function saveJob(Request $request){
+        dd($request->all());
+    }
 }
