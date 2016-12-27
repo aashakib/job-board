@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Validator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,7 +14,15 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Validator::extend('not_html', function ($attribute, $value, $parameters, $validator) {
+            $pass = false;
+            $pattern = '/^[a-zA-Z0-9 "!?_-]+$/';
+            preg_match($pattern, $value, $matches);
+            if (!empty($matches)) {
+                $pass = true;
+            }
+            return $pass;
+        });
     }
 
     /**

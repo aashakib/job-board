@@ -7,6 +7,15 @@
                 <div class="panel-heading">Create Job</div>
 
                 <div class="panel-body">
+                    @if (count($errors) > 0)
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                     <form action="{{route('job.save')}}" method="post">
                         {{csrf_field()}}
                         <div class="form-group">

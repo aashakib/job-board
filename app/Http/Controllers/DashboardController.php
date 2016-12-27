@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateJobRequest;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -29,7 +30,7 @@ class DashboardController extends Controller
         return view('frontend.hr-manager.create-job');
     }
 
-    public function saveJob(Request $request){
+    public function saveJob(CreateJobRequest $request){
         dd($request->all());
     }
 }
