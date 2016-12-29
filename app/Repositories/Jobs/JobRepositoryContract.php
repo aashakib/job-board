@@ -10,15 +10,13 @@ namespace  App\Repositories\Jobs;
 
 /**
  * Interface JobRepositoryContract
- * @package App\Http\Repositories\Jobs
+ * @package App\Repositories\Jobs
  */
 interface JobRepositoryContract
 {
 
-    /**
-     * @param $request
-     * @return mixed
-     */
     public function saveJob($request);
+    public function makeSlug($slug);
+    public function totalJobCountByUserIdAndEmail($userId, $email);
 
 }

@@ -31,6 +31,7 @@ Route::group(['middleware' => ['web', 'auth']], function () {
 
     Route::get('job/add', ['as' => 'job.create', "uses" => 'DashboardController@addJob']);
     Route::post('job/save', ['as' => 'job.save', "uses" => 'DashboardController@saveJob']);
+    Route::get('jobs', ['as' => 'job.list', "uses" => 'DashboardController@jobLists']);
 
 });
 

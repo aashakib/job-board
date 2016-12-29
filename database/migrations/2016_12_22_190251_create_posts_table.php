@@ -18,10 +18,10 @@ class CreatePostsTable extends Migration
             $table->string('title');
             $table->string('slug')->unique();
             $table->text('description');
-            $table->string('email')->unique();
+            $table->string('email');
             $table->tinyInteger('status')->default(0)->comment('0=pending, 1=public/published, 2=spam');
             $table->integer('user_id');
-            $table->integer('approved_by');
+            $table->integer('approved_by')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

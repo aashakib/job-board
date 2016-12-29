@@ -16,6 +16,7 @@ class DashboardController extends Controller
      * @var JobRepositoryContract
      */
     protected $jobRepositoryContract;
+
     /**
      * Create a new controller instance.
      *
@@ -41,7 +42,8 @@ class DashboardController extends Controller
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function addJob(){
+    public function addJob()
+    {
         return view('frontend.hr-manager.create-job');
     }
 
@@ -49,8 +51,20 @@ class DashboardController extends Controller
      * @param CreateJobRequest $request
      * @return mixed
      */
-    public function saveJob(CreateJobRequest $request){
+    public function saveJob(CreateJobRequest $request)
+    {
         $response = $this->jobRepositoryContract->saveJob($request);
-        return $response;
+
+        if ($response) {
+            \Session::flash('flash_success','Job successfully created. Now Its under moderation');
+            return redirect()->route('job.create');
+        } else {
+            \Session::flash('flash_error','Error in job creation! Please try again');
+            return redirect()->route('job.create');
+        }
+    }
+
+    public function jobLists(){
+        return view('frontend.hr-manager.job-lists');
     }
 }

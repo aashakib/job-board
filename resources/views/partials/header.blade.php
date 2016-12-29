@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Job Board</title>
     <link rel="stylesheet" media="all" type="text/css" href="//cdn.jsdelivr.net/bootstrap/3.3.7/css/bootstrap.min.css">
-
+    <link href="//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.2/summernote.css" rel="stylesheet">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -42,7 +42,7 @@
                         @if(Auth::user()->type == 2)
                             {{--hr manager--}}
                             <li><a href="{{route('job.create')}}">New Job Post</a></li>
-                            <li><a href="">My Jobs</a></li>
+                            <li><a href="{{route('job.list')}}">My Jobs</a></li>
                         @else
 
                         @endif
