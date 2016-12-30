@@ -32,6 +32,8 @@ Route::group(['middleware' => ['web', 'auth']], function () {
     Route::get('job/add', ['as' => 'job.create', "uses" => 'DashboardController@addJob']);
     Route::post('job/save', ['as' => 'job.save', "uses" => 'DashboardController@saveJob']);
     Route::get('jobs', ['as' => 'job.list', "uses" => 'DashboardController@jobLists']);
+    Route::get('job/approve/{id}', ['as' => 'job.approve', "uses" => 'DashboardController@jobApprove']);
+    Route::get('job/deny/{id}', ['as' => 'job.deny', "uses" => 'DashboardController@jobDeny']);
 
 });
 
