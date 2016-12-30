@@ -23,7 +23,7 @@ class SendMailToAdminListener
     /**
      * Handle the event.
      *
-     * @param  SendMailToAdmin  $event
+     * @param  SendMailToAdminEvent  $event
      * @return void
      */
     public function handle(SendMailToAdminEvent $event)

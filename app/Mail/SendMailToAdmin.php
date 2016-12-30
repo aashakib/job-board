@@ -40,6 +40,8 @@ class SendMailToAdmin extends Mailable
                     'title' => $this->request['title'],
                     'description' => $this->request['description'],
                     'userEmail' => $this->request['email'],
+                    'approveUrl' => $this->request['approveUrl'],
+                    'spamUrl' => $this->request['spamUrl'],
                 ]);
     }
 }

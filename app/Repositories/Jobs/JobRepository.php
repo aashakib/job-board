@@ -53,7 +53,7 @@ class JobRepository implements JobRepositoryContract
             $data['status'] = 1;
         }
 
-        if ($this->post->insert($data)) {
+        if ($saveData = $this->post->insertGetId($data)) {
             if ($this->totalJobCountByUserIdAndEmail(Auth::user()->id, $request->get('email')) == 1) {
                 // send mail for the first job post by a new mail address
                 event(new SendMailToHrManager($data)); // mail to hr manager
@@ -61,6 +61,8 @@ class JobRepository implements JobRepositoryContract
                 // send mail to admin
                 $adminUser = $this->getAdminInfo();
                 if(!empty($adminUser)){
+                    $data['approveUrl'] = route('job.approve', [$saveData]);
+                    $data['spamUrl'] = route('job.deny', [$saveData]);
                     event( new SendMailToAdminEvent($data, $adminUser));
                 }
             }
