@@ -19,6 +19,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\SendMailToHrManager' => [
             'App\Listeners\SendMailToHrManagerLinsener',
         ],
+        'App\Events\SendMailToAdminEvent' => [
+            'App\Listeners\SendMailToAdminListener',
+        ],
     ];
 
     /**
