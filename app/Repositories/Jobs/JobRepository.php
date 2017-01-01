@@ -94,4 +94,13 @@ class JobRepository implements JobRepositoryContract
         return $this->user->adminUser()->first();
     }
 
+    public function getAllJobs(){
+        $jobs = $this->post->with('user');
+        if(Auth::user()->type == 2){
+            // get own posts
+            $jobs->userPosts(Auth::user()->id);
+        }
+        return $jobs->paginate(10);
+    }
+
 }

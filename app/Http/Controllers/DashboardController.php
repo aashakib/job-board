@@ -57,7 +57,7 @@ class DashboardController extends Controller
 
         if ($response) {
             \Session::flash('flash_success', 'Job successfully created. Now Its under moderation');
-            return redirect()->route('job.create');
+            return redirect()->route('job.list');
         } else {
             \Session::flash('flash_error', 'Error in job creation! Please try again');
             return redirect()->route('job.list');
@@ -66,16 +66,17 @@ class DashboardController extends Controller
 
     public function jobLists()
     {
-        return view('frontend.hr-manager.job-lists');
+        $data['allJobs'] = $this->jobRepositoryContract->getAllJobs();
+        return view('frontend.hr-manager.job-lists', $data);
     }
 
     public function jobApprove()
     {
-
+        dd(1);
     }
 
     public function jobDeny()
     {
-
+        dd(2);
     }
 }

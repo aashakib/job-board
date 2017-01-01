@@ -19,5 +19,6 @@ interface JobRepositoryContract
     public function makeSlug($slug);
     public function totalJobCountByUserIdAndEmail($userId, $email);
     public function getAdminInfo();
+    public function getAllJobs();
 
 }
