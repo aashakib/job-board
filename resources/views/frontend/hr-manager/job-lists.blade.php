@@ -5,6 +5,16 @@
         <div class="col-sm-12">
             <div class="panel panel-default">
                 <div class="panel-heading">Jobs</div>
+                @if(Session::has('flash_success'))
+                    <div class="alert alert-success">
+                        <span class="glyphicon glyphicon-ok"></span><em> {!! session('flash_success') !!}</em>
+                    </div>
+                @endif
+                @if(Session::has('flash_error'))
+                    <div class="alert alert-danger">
+                        <span class="glyphicon glyphicon-remove"></span><em> {!! session('flash_error') !!}</em>
+                    </div>
+                @endif
 
                 <div class="panel-body">
                     <div class="table-responsive">
@@ -12,7 +22,7 @@
                             <thead>
                             <tr>
                                 <td>Title</td>
-                                <td>Slug</td>
+                                <td>Description</td>
                                 <td>Email</td>
                                 <td>Status</td>
                                 @if(Auth::user()->type == 1)
@@ -26,8 +36,8 @@
                                 @foreach($allJobs as $job)
                                     <tr>
                                         <td>{{$job->title}}</td>
-                                        <td>{{$job->slug}}</td>
-                                        <td>{{$job->email}}</td>
+                                        <td>{!! $job->description !!}</td>
+                                        <td><a href="mailto:{{$job->email}}">{{$job->email}}</a></td>
                                         <td>
                                             <span class="label
                                             @if($job->status == 'pending')

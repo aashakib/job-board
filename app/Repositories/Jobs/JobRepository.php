@@ -44,26 +44,26 @@ class JobRepository implements JobRepositoryContract
     {
         $data = [
             'title' => $request->get('title'),
-            'slug' => $this->makeSlug($request->get('title')),
+            'slug' => $this->_makeSlug($request->get('title')),
             'description' => $request->get('description'),
             'email' => $request->get('email'),
             'user_id' => Auth::user()->id
         ];
-        if ($this->totalJobCountByUserIdAndEmail(Auth::user()->id, $request->get('email')) == 1) {
+        if ($this->_totalJobCountByUserIdAndEmail(Auth::user()->id, $request->get('email')) == 1) {
             $data['status'] = 1;
         }
 
         if ($saveData = $this->post->insertGetId($data)) {
-            if ($this->totalJobCountByUserIdAndEmail(Auth::user()->id, $request->get('email')) == 1) {
+            if ($this->_totalJobCountByUserIdAndEmail(Auth::user()->id, $request->get('email')) == 1) {
                 // send mail for the first job post by a new mail address
                 event(new SendMailToHrManager($data)); // mail to hr manager
 
                 // send mail to admin
-                $adminUser = $this->getAdminInfo();
-                if(!empty($adminUser)){
+                $adminUser = $this->_getAdminInfo();
+                if (!empty($adminUser)) {
                     $data['approveUrl'] = route('job.approve', [$saveData]);
                     $data['spamUrl'] = route('job.deny', [$saveData]);
-                    event( new SendMailToAdminEvent($data, $adminUser));
+                    event(new SendMailToAdminEvent($data, $adminUser));
                 }
             }
 
@@ -74,7 +74,7 @@ class JobRepository implements JobRepositoryContract
         }
     }
 
-    public function makeSlug($slug)
+    protected function _makeSlug($slug)
     {
         $check = $this->post->where('slug', str_slug($slug))->count();
         if (!empty($check)) {
@@ -84,23 +84,36 @@ class JobRepository implements JobRepositoryContract
         }
     }
 
-    public function totalJobCountByUserIdAndEmail($userId, $email)
+    protected function _totalJobCountByUserIdAndEmail($userId, $email)
     {
         return $this->post->where('user_id', $userId)->where('email', $email)->count();
 
     }
 
-    public function getAdminInfo(){
+    protected function _getAdminInfo()
+    {
         return $this->user->adminUser()->first();
     }
 
-    public function getAllJobs(){
+    public function getAllJobs()
+    {
         $jobs = $this->post->with('user');
-        if(Auth::user()->type == 2){
+        if (Auth::user()->type == 2) {
             // get own posts
             $jobs->userPosts(Auth::user()->id);
         }
         return $jobs->paginate(10);
+    }
+
+    public function updateJobStatus($id, $status)
+    {
+        $job = $this->post->find($id);
+        $job->status = $status;
+        if($job->save()){
+            return TRUE;
+        }
+        return FALSE;
+
     }
 
 }

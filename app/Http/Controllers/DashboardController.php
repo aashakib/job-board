@@ -70,13 +70,27 @@ class DashboardController extends Controller
         return view('frontend.hr-manager.job-lists', $data);
     }
 
-    public function jobApprove()
+    public function jobApprove($id)
     {
-        dd(1);
+        $status = 1;
+        if ($this->jobRepositoryContract->updateJobStatus($id, $status)){
+            \Session::flash('flash_success', 'Job successfully spammed!');
+            return redirect()->route('job.list');
+        }else{
+            \Session::flash('flash_error', 'Error in job moderation! Please try again');
+            return redirect()->route('job.list');
+        }
     }
 
-    public function jobDeny()
+    public function jobDeny($id)
     {
-        dd(2);
+        $status = 2;
+        if ($this->jobRepositoryContract->updateJobStatus($id, $status)){
+            \Session::flash('flash_success', 'Job successfully published');
+            return redirect()->route('job.list');
+        }else{
+            \Session::flash('flash_error', 'Error in job moderation! Please try again');
+            return redirect()->route('job.list');
+        }
     }
 }
