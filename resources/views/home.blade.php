@@ -7,7 +7,30 @@
                 <div class="panel-heading">Dashboard</div>
 
                 <div class="panel-body">
-                    You are logged in!
+                    <div class="col-sm-4">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">All Jobs</div>
+                            <div class="panel-body">
+                                {{$statistics['total']}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Published</div>
+                            <div class="panel-body">
+                                {{$statistics['published']}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Spam</div>
+                            <div class="panel-body">
+                                {{$statistics['spam']}}
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

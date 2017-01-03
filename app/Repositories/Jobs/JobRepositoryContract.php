@@ -22,5 +22,6 @@ interface JobRepositoryContract
     public function getAllJobs();
 
     public function updateJobStatus($jobId, $status);
+    public function getJobStatistics($month);
 
 }

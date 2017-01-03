@@ -4,15 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use DB;
 
 class Post extends Model
 {
     use SoftDeletes;
-
+    protected $table = 'posts';
     public $timestamps = true;
 
     protected $fillable = [
-        'title', 'description', 'email',
+        'title', 'description', 'email', 'created_at'
     ];
 
     public function user()
@@ -30,13 +31,18 @@ class Post extends Model
         return $query->where('user_id', 1);
     }
 
+    public function scopeGetPostsByMonthInterval($query, $month)
+    {
+        return $query->where('created_at', '>=', DB::raw('DATE_SUB(NOW(), INTERVAL '.$month.' MONTH)'));
+    }
+
     public function getStatusAttribute($value)
     {
-        if ($value == 0){
+        if ($value == 0) {
             return 'pending';
-        }else if($value == 1){
+        } else if ($value == 1) {
             return 'published';
-        }else{
+        } else {
             return 'spam';
         }
 

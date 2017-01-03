@@ -47,7 +47,8 @@ class JobRepository implements JobRepositoryContract
             'slug' => $this->_makeSlug($request->get('title')),
             'description' => $request->get('description'),
             'email' => $request->get('email'),
-            'user_id' => Auth::user()->id
+            'user_id' => Auth::user()->id,
+            "created_at" => \Carbon\Carbon::now()
         ];
         if ($this->_totalJobCountByUserIdAndEmail(Auth::user()->id, $request->get('email')) == 1) {
             $data['status'] = 1;
@@ -109,11 +110,18 @@ class JobRepository implements JobRepositoryContract
     {
         $job = $this->post->find($id);
         $job->status = $status;
-        if($job->save()){
+        if ($job->save()) {
             return TRUE;
         }
         return FALSE;
+    }
 
+    public function getJobStatistics($month)
+    {
+        $posts['total'] = $this->post->getPostsByMonthInterval($month)->count();
+        $posts['published'] = $this->post->where('status', 1)->getPostsByMonthInterval($month)->count();
+        $posts['spam'] = $this->post->where('status', 2)->getPostsByMonthInterval($month)->count();
+        return $posts;
     }
 
 }
