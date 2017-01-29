@@ -13,6 +13,7 @@ use App\Models\Post;
 use App\Models\User;
 use Auth;
 use App\Events\SendMailToHrManager;
+use DB;
 
 /**
  * Class JobRepository
@@ -121,6 +122,24 @@ class JobRepository implements JobRepositoryContract
         $posts['total'] = $this->post->getPostsByMonthInterval($month)->count();
         $posts['published'] = $this->post->where('status', 1)->getPostsByMonthInterval($month)->count();
         $posts['spam'] = $this->post->where('status', 2)->getPostsByMonthInterval($month)->count();
+
+        $posts['total_detail'] = $this->post
+            ->select(DB::raw('count(*) AS `total`, monthname(`created_at`) AS month'))
+            ->getPostsByMonthInterval($month)
+            ->groupBy(DB::raw('MONTH(`posts`.`created_at`)'))
+            ->get();
+        $posts['published_detail'] = $this->post
+            ->select(DB::raw('count(*) AS `total`, monthname(`created_at`) AS month'))
+            ->where('status', 1)
+            ->getPostsByMonthInterval($month)
+            ->groupBy(DB::raw('MONTH(`posts`.`created_at`)'))
+            ->get();
+        $posts['spam_detail'] = $this->post
+            ->select(DB::raw('count(*) AS `total`, monthname(`created_at`) AS month'))
+            ->where('status', 2)
+            ->getPostsByMonthInterval($month)
+            ->groupBy(DB::raw('MONTH(`posts`.`created_at`)'))
+            ->get();
         return $posts;
     }
 

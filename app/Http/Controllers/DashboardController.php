@@ -36,8 +36,9 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $data = [];
-        $data['statistics']= $this->jobRepositoryContract->getJobStatistics(10);
+        $month = 6;
+        $data['month_stat'] = $month;
+        $data['statistics']= $this->jobRepositoryContract->getJobStatistics($month);
         return view('home', $data);
     }
 
